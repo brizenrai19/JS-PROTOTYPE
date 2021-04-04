@@ -78,11 +78,37 @@ function Airplane(name) {
           + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
   */
   
- function Car() {
-    
+  function Car(model, milesPerGallon) {
+    this.model = model;
+    this.milesPerGallon = milesPerGallon;  
+    this.tank = 0;
+    this.odometer = 0;
   }
   
+  Car.prototype.fill = function (gallons) {
+    this.tank += gallons;
+  }
   
+  Car.prototype.drive = function(distance){
+    this.odometer += distance;
+    this.tank -= distance/this.milesPerGallon;
+    if(this.tank <= 0){
+      console.log(`I ran out of fuel at ${this.odometer} miles!`);
+    }
+  }
+
+  let car = new Car("Toyota",30);
+  car.fill(12);
+  console.log(car);
+  car.drive(30);
+  console.log(car);
+  car.drive(90);
+  console.log(car);
+  car.drive(120);
+  console.log(car);
+  car.drive(122);
+  console.log(car);
+
   /*
     TASK 3
       - Write a Baby constructor subclassing Person.
@@ -90,10 +116,18 @@ function Airplane(name) {
       - Besides the methods on Person.prototype, babies have the ability to `.play()`:
           + Should return a string "Playing with x", x being the favorite toy.
   */
- function Baby() {
-   
+  function Baby(name, age, favoriteToy) {
+    Person.call(this,name,age);
+    this.favoriteToy = favoriteToy;
   }
- 
+
+  Baby.prototype.play = function(){
+    return `Playing with ${this.favoriteToy}`;
+  }
+
+  let baby = new Baby("Charlie",2,"Lego");
+  console.log(baby);
+  console.log(baby.favoriteToy); 
   
   /* 
     TASK 4
@@ -112,9 +146,9 @@ function foo(){
     return 'bar';
 }
 
-// export default{
-//     foo,
-//     Person, 
-//     Car,
-//     Baby
-// }
+export default{
+    foo,
+    Person, 
+    Car,
+    Baby
+}
